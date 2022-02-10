@@ -1,0 +1,46 @@
+@import "../../style/mixins.scss";
+
+.snippet {
+  margin: 1.5rem 0 3rem 0;
+
+  @include card();
+
+  // .title,
+  .description,
+  .code {
+    margin-bottom: 1rem;
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--primary-color);
+    margin-bottom: 0.6rem;
+  }
+
+  .snippet-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .btn-edit,
+  .btn-delete,
+  .btn-copy {
+    @include btn();
+    margin-right: 1rem;
+    color: var(--text-light-color);
+  }
+
+  .btn-edit {
+    background: var(--primary-color);
+  }
+
+  .btn-delete {
+    background: var(--danger-color);
+  }
+
+  .btn-copy {
+    background: green;
+  }
+}

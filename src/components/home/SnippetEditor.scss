@@ -1,0 +1,52 @@
+@import "../../style/mixins.scss";
+
+.snippet-editor {
+  @include card();
+
+  h2 {
+    // text-align: center;
+    margin-bottom: 1rem;
+
+    span {
+      color: var(--danger-color);
+    }
+  }
+
+  .code {
+    margin-bottom: 1rem;
+  }
+
+  .btn-save,
+  .btn-cancel {
+    @include btn();
+    margin-right: 1rem;
+  }
+
+  .btn-save {
+    background: var(--primary-color);
+    color: var(--text-light-color);
+  }
+
+  .btn-cancel {
+    background: var(--danger-color);
+    color: var(--text-light-color);
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  .editor-title,
+  .editor-description {
+    width: 100%;
+    display: block;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    border: 1px solid var(--primary-color);
+    padding: 0.5rem 0.8rem;
+    border-radius: 10px;
+  }
+
+  .editor-description {
+  }
+}

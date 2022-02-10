@@ -1,0 +1,61 @@
+@import "../../style/mixins.scss";
+
+.home-page {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4rem;
+  margin-top: 5rem;
+
+  .description {
+    color: var(--light-color);
+    font-size: 2rem;
+  }
+
+  .demo-content {
+    color: var(--light-color);
+    font-size: 1.4rem;
+
+    button {
+      color: var(--danger-light-color);
+    }
+  }
+
+  span {
+    font-weight: bold;
+  }
+
+  .login {
+    @include btn();
+    font-size: 1.2rem;
+    margin: 2rem;
+    background: var(--light-color);
+    font-weight: bold;
+  }
+
+  .code-img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin: 3rem 0 1.5rem 0;
+  }
+
+  .form-layout {
+    width: 400px;
+    margin: auto;
+    background-color: var(--light-color);
+    border-radius: 6px;
+    box-shadow: var(--box-shadow);
+  }
+
+  .form-action {
+    font-size: 1.1rem;
+    padding: 0 2rem;
+    padding-bottom: 1.4rem;
+
+    button {
+      color: var(--primary-color);
+      text-decoration: underline;
+      font-weight: bold;
+    }
+  }
+}

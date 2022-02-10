@@ -1,0 +1,65 @@
+@import "../../style//mixins.scss";
+
+.auth-form {
+  .btn-submit {
+    @include btn();
+    background: var(--primary-color);
+    color: var(--text-light-color);
+    margin: 1rem 0;
+    width: 100%;
+  }
+
+  .form-container {
+    padding: 1.5rem 2rem;
+  }
+
+  .divider p {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid var(--primary-color);
+    line-height: 0.1em;
+    margin: 2rem 0 2rem;
+  }
+
+  .divider p span {
+    background-color: var(--light-color);
+    padding: 0 10px;
+  }
+
+  form input {
+    // display: block;
+    width: 100%;
+    margin-bottom: 1.4rem;
+    padding: 8px;
+    border: 1px solid var(--primary-color);
+    border-radius: 4px;
+  }
+
+  .form-footer {
+    padding: 1rem 0;
+    border-top: 1px solid var(--primary-color);
+    background-color: var(--light-color);
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+
+  .form-footer p {
+    padding: 0.5rem 2rem;
+  }
+
+  .form-footer span {
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .action {
+    // font-weight: bold;
+    font-size: 1.4rem;
+  }
+
+  .reload-demo-accout {
+    color: var(--danger-color);
+    cursor: pointer;
+    text-align: center;
+  }
+}
