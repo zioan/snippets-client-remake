@@ -6,6 +6,7 @@ import UserContext from "../../context/UserContext";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 import ErrorMessage from "../misc/ErrorMessage";
 import domain from "../../util/domain";
+import Select from "react-select";
 
 function SnippetEditor({
   getSnippets,
@@ -16,9 +17,16 @@ function SnippetEditor({
   const [editorTitle, setEditorTitle] = useState("");
   const [editorDescription, setEditorDescription] = useState("");
   const [editorCode, setEditorCode] = useState("");
+  const [editorTag, setEditorTag] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
 
   const { user, getUser } = useContext(UserContext);
+
+  const tags = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
 
   useEffect(() => {
     if (editSnippetData) {
@@ -27,6 +35,7 @@ function SnippetEditor({
         editSnippetData.description ? editSnippetData.description : ""
       );
       setEditorCode(editSnippetData.code ? editSnippetData.code : "");
+      setEditorTag(editSnippetData.tag ? editSnippetData.tag : "");
     }
     return !editSnippetData; //cleanup
   }, [editSnippetData]);
@@ -38,6 +47,7 @@ function SnippetEditor({
       title: editorTitle ? editorTitle : undefined,
       description: editorDescription ? editorDescription : undefined,
       code: editorCode ? editorCode : undefined,
+      tag: editorTag ? editorTag : undefined,
     };
 
     try {
@@ -70,6 +80,29 @@ function SnippetEditor({
     clearEditSnippetData();
   }
 
+  function tagUpdate(e) {
+    setEditorTag(e.value);
+  }
+
+  const customStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      borderBottom: "1px dotted pink",
+      color: state.isSelected ? "#453" : "#333",
+      padding: 10,
+    }),
+    control: () => ({
+      // none of react-select's styles are passed to <Control />
+      width: 200,
+    }),
+    singleValue: (provided, state) => {
+      const opacity = state.isDisabled ? 0.5 : 1;
+      const transition = "opacity 300ms";
+
+      return { ...provided, opacity, transition };
+    },
+  };
+
   return (
     user && (
       <div className="snippet-editor">
@@ -79,10 +112,25 @@ function SnippetEditor({
             clear={() => setErrorMessage(null)}
           />
         )}
+
         <form onSubmit={saveSnippet}>
           <h2>
             Editing - <span>{editorTitle}</span>
           </h2>
+          <div className="select">
+            <label>
+              {editorTag === "" ? "Select Tag:" : `Tag selected: ${editorTag} `}
+            </label>
+            <Select
+              className="editor-tags"
+              options={tags}
+              //default value to fix
+
+              setValue={editorTag}
+              styles={customStyles}
+              onChange={tagUpdate}
+            />
+          </div>
           <label htmlFor="editor-title">Title</label>
           <input
             id="editor-title"
@@ -99,6 +147,7 @@ function SnippetEditor({
             value={editorDescription}
             onChange={(e) => setEditorDescription(e.target.value)}
           />
+
           {/* <label htmlFor="editor-code">Code</label> */}
           <div className="code">
             <CodeEditor

@@ -19,14 +19,18 @@ function Snippet({ snippet, getSnippets, editSnippet }) {
           {" "}
           <div className="snippet-header">
             <h2 className="title">{snippet.title}</h2>
-            <button
-              className="btn-copy"
-              onClick={() => {
-                navigator.clipboard.writeText(snippet.code);
-              }}
-            >
-              Copy
-            </button>
+            <div>
+              {snippet.tag && <span className="tag">{snippet.tag}</span>}
+
+              <button
+                className="btn-copy"
+                onClick={() => {
+                  navigator.clipboard.writeText(snippet.code);
+                }}
+              >
+                Copy
+              </button>
+            </div>
           </div>
           <div className="divider"></div>
         </>

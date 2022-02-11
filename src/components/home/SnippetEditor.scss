@@ -47,6 +47,16 @@
     border-radius: 10px;
   }
 
-  .editor-description {
+  .select {
+    display: flex;
+
+    label {
+      margin-top: 0.8rem;
+    }
+  }
+
+  .editor-tags {
+    margin-top: 0.5rem;
+    width: 300px;
   }
 }
