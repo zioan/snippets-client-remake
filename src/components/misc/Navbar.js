@@ -26,6 +26,7 @@ function Navbar() {
     setUserName(userName.data);
   }
 
+  //must add useEffect here !
   getUserName();
 
   return (

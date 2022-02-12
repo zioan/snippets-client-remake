@@ -49,14 +49,22 @@
 
   .select {
     display: flex;
+    margin-bottom: 1rem;
 
     label {
-      margin-top: 0.8rem;
+      margin-right: 1rem;
     }
-  }
 
-  .editor-tags {
-    margin-top: 0.5rem;
-    width: 300px;
+    select {
+      font-size: 1rem;
+      font-weight: bold;
+      color: (var(--text-dark-color));
+
+      border: none;
+      border-bottom: 1px solid var(--text-dark-color);
+      background: var(--light-color);
+
+      outline: none;
+    }
   }
 }

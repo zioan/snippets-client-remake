@@ -4,15 +4,16 @@ import Snippet from "./Snippet";
 import SnippetEditor from "./SnippetEditor";
 import "./Snippets.scss";
 import UserContext from "../../context/UserContext";
-import { Link } from "react-router-dom";
 import domain from "../../util/domain";
+import NewTag from "../misc/NewTag";
 
 function Snippets() {
   const [snippets, setSnippets] = useState([]);
+  const [userTags, setUserTags] = useState([]);
   const [snippetEditorOpen, setSnippetEditorOpen] = useState(false);
   const [editSnippetData, setEditSnippetData] = useState(null);
 
-  const { user } = useContext(UserContext);
+  const { user, getUser } = useContext(UserContext);
 
   useEffect(() => {
     if (!user) {
@@ -26,6 +27,13 @@ function Snippets() {
     const snippetsRes = await axios.get(`${domain}/snippet/`);
     setSnippets(snippetsRes.data);
   }
+
+  async function getTags() {
+    const tagsRes = await axios.get(`${domain}/auth/userTags`);
+    await getUser();
+    setUserTags(tagsRes.data);
+  }
+  console.log(userTags);
 
   function scrollTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -60,6 +68,44 @@ function Snippets() {
     setEditSnippetData(null);
   }
 
+  const options = [
+    {
+      label: "Select tag...",
+      value: "undefined",
+    },
+    {
+      label: "test",
+      value: "test",
+    },
+    {
+      label: "test2a",
+      value: "test2a",
+    },
+  ];
+
+  // async function getTagList() {
+  //   const tagsRes = await axios.get(`${domain}/auth/userTags`);
+  //   let userTags2 = tagsRes.data;
+  //   console.log(userTags2);
+  //   userTags2.map((tag) => {
+  //     if (tag) {
+  //       options.push({ label: tag, value: tag });
+  //     }
+  //     return tag; //cleanup
+  //   });
+  // }
+
+  // getTagList();
+
+  // userTags.map((tag) => {
+  //   if (tag) {
+  //     return options.push({ label: tag, value: tag });
+  //   }
+  //   return options;
+  // });
+
+  console.log(userTags);
+
   return (
     <div className="home">
       {!snippetEditorOpen && user && (
@@ -73,10 +119,16 @@ function Snippets() {
       <p className="anounce">
         Tag sorting, search functionality and more features coming soon!
       </p>
+      {userTags &&
+        userTags.map((tag, index) => {
+          return <button key={index}>{tag}</button>;
+        })}
+      <NewTag />
       {snippetEditorOpen && (
         <SnippetEditor
           setSnippetEditorOpen={setSnippetEditorOpen}
           getSnippets={getSnippets}
+          options={options}
           clearEditSnippetData={clearEditSnippetData}
           editSnippetData={editSnippetData}
         />
@@ -86,12 +138,6 @@ function Snippets() {
         : user && (
             <p className="no-snippets">No snippets have been added yet!</p>
           )}
-      {/* {user === null && (
-        <div className="no-user-message">
-          <h2>Welcome to Snippet manager</h2>
-          <Link to="/register">Register here</Link>
-        </div>
-      )} */}
     </div>
   );
 }

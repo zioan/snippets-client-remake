@@ -6,27 +6,22 @@ import UserContext from "../../context/UserContext";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 import ErrorMessage from "../misc/ErrorMessage";
 import domain from "../../util/domain";
-import Select from "react-select";
 
 function SnippetEditor({
   getSnippets,
   setSnippetEditorOpen,
   editSnippetData,
   clearEditSnippetData,
+  options,
 }) {
   const [editorTitle, setEditorTitle] = useState("");
   const [editorDescription, setEditorDescription] = useState("");
   const [editorCode, setEditorCode] = useState("");
   const [editorTag, setEditorTag] = useState("");
+
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const { user, getUser } = useContext(UserContext);
-
-  const tags = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     if (editSnippetData) {
@@ -51,6 +46,7 @@ function SnippetEditor({
     };
 
     try {
+      //add snippet
       if (!editSnippetData) {
         await axios.post(`${domain}/snippet/`, snippetData);
       } else {
@@ -74,34 +70,12 @@ function SnippetEditor({
 
   function closeEditor() {
     setSnippetEditorOpen(false);
-    setEditorTitle("");
-    setEditorDescription("");
-    setEditorCode("");
+    // setEditorTitle("");
+    // setEditorDescription("");
+    // setEditorCode("");
+    // setEditorTag("");
     clearEditSnippetData();
   }
-
-  function tagUpdate(e) {
-    setEditorTag(e.value);
-  }
-
-  const customStyles = {
-    option: (provided, state) => ({
-      ...provided,
-      borderBottom: "1px dotted pink",
-      color: state.isSelected ? "#453" : "#333",
-      padding: 10,
-    }),
-    control: () => ({
-      // none of react-select's styles are passed to <Control />
-      width: 200,
-    }),
-    singleValue: (provided, state) => {
-      const opacity = state.isDisabled ? 0.5 : 1;
-      const transition = "opacity 300ms";
-
-      return { ...provided, opacity, transition };
-    },
-  };
 
   return (
     user && (
@@ -118,19 +92,21 @@ function SnippetEditor({
             Editing - <span>{editorTitle}</span>
           </h2>
           <div className="select">
-            <label>
-              {editorTag === "" ? "Select Tag:" : `Tag selected: ${editorTag} `}
-            </label>
-            <Select
-              className="editor-tags"
-              options={tags}
-              //default value to fix
+            <label>{editorTag === "" ? "Select Tag:" : "Tag selected:"}</label>
 
-              setValue={editorTag}
-              styles={customStyles}
-              onChange={tagUpdate}
-            />
+            <select
+              className="select-options"
+              onChange={(e) => setEditorTag(e.target.value)}
+              value={editorTag ? editorTag : options[0].value}
+            >
+              {options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
           </div>
+
           <label htmlFor="editor-title">Title</label>
           <input
             id="editor-title"
@@ -148,12 +124,11 @@ function SnippetEditor({
             onChange={(e) => setEditorDescription(e.target.value)}
           />
 
-          {/* <label htmlFor="editor-code">Code</label> */}
           <div className="code">
             <CodeEditor
               className="code-editor"
               value={editorCode}
-              language="jsx"
+              language="js"
               placeholder="Your snipped code here"
               padding={15}
               style={{
