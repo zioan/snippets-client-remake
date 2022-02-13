@@ -5,11 +5,11 @@ import SnippetEditor from "./SnippetEditor";
 import "./Snippets.scss";
 import UserContext from "../../context/UserContext";
 import domain from "../../util/domain";
-import NewTag from "../misc/NewTag";
+// import NewTag from "../misc/NewTag";
 
 function Snippets() {
   const [snippets, setSnippets] = useState([]);
-  const [userTags, setUserTags] = useState([]);
+  // const [userTags, setUserTags] = useState([]);
   const [snippetEditorOpen, setSnippetEditorOpen] = useState(false);
   const [editSnippetData, setEditSnippetData] = useState(null);
 
@@ -28,12 +28,12 @@ function Snippets() {
     setSnippets(snippetsRes.data);
   }
 
-  async function getTags() {
-    const tagsRes = await axios.get(`${domain}/auth/userTags`);
-    await getUser();
-    setUserTags(tagsRes.data);
-  }
-  console.log(userTags);
+  // async function getTags() {
+  //   const tagsRes = await axios.get(`${domain}/auth/userTags`);
+  //   // await getUser();
+  //   setUserTags(tagsRes.data);
+  // }
+  // console.log(userTags);
 
   function scrollTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -68,20 +68,20 @@ function Snippets() {
     setEditSnippetData(null);
   }
 
-  const options = [
-    {
-      label: "Select tag...",
-      value: "undefined",
-    },
-    {
-      label: "test",
-      value: "test",
-    },
-    {
-      label: "test2a",
-      value: "test2a",
-    },
-  ];
+  // const options = [
+  //   {
+  //     label: "Select tag...",
+  //     value: "undefined",
+  //   },
+  //   {
+  //     label: "test",
+  //     value: "test",
+  //   },
+  //   {
+  //     label: "test2a",
+  //     value: "test2a",
+  //   },
+  // ];
 
   // async function getTagList() {
   //   const tagsRes = await axios.get(`${domain}/auth/userTags`);
@@ -104,7 +104,7 @@ function Snippets() {
   //   return options;
   // });
 
-  console.log(userTags);
+  // console.log(userTags);
 
   return (
     <div className="home">
@@ -119,16 +119,15 @@ function Snippets() {
       <p className="anounce">
         Tag sorting, search functionality and more features coming soon!
       </p>
-      {userTags &&
+      {/* {userTags &&
         userTags.map((tag, index) => {
           return <button key={index}>{tag}</button>;
-        })}
-      <NewTag />
+        })} */}
+      {/* <NewTag /> */}
       {snippetEditorOpen && (
         <SnippetEditor
           setSnippetEditorOpen={setSnippetEditorOpen}
           getSnippets={getSnippets}
-          options={options}
           clearEditSnippetData={clearEditSnippetData}
           editSnippetData={editSnippetData}
         />

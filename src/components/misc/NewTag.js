@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/UserContext";
 import domain from "../../util/domain";
 
-function NewTag() {
+function NewTag({ onNewTag }) {
   const [newTag, setNewTag] = useState("");
   const { user } = useContext(UserContext);
 
@@ -16,6 +16,8 @@ function NewTag() {
     await axios.put(`${domain}/auth/addTag/${user}`, tag);
     console.log(newTag);
   }
+
+  onNewTag(newTag);
 
   return (
     <div className="class">

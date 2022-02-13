@@ -12,12 +12,14 @@ function SnippetEditor({
   setSnippetEditorOpen,
   editSnippetData,
   clearEditSnippetData,
-  options,
+  // options,
 }) {
   const [editorTitle, setEditorTitle] = useState("");
   const [editorDescription, setEditorDescription] = useState("");
   const [editorCode, setEditorCode] = useState("");
   const [editorTag, setEditorTag] = useState("");
+
+  const [userTags, setUserTags] = useState([]);
 
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -34,6 +36,81 @@ function SnippetEditor({
     }
     return !editSnippetData; //cleanup
   }, [editSnippetData]);
+
+  let options = [
+    {
+      label: "Select tag...",
+      value: "undefined",
+    },
+  ];
+
+  // useEffect(() => {
+  //   if (!user) {
+  //     setUserTags([]);
+  //   } else {
+  //     getTags();
+  //   }
+  // }, [user]);
+
+  // useEffect(() => {
+  //   if (!user) {
+  //     setUserTags([]);
+  //   } else {
+  //     getTags();
+  //   }
+  // }, [setSnippetEditorOpen, user]);
+
+  // async function getTags() {
+  //   const tagsRes = await axios.get(`${domain}/auth/userTags`);
+  //   // setUserTags(tagsRes.data);
+  //   setUserTags(tagsRes.data);
+
+  //   // console.log(tagsRes.data);
+  //   // console.log(userTags);
+  // }
+
+  // setSnippetEditorOpen && getTags();
+
+  // async function fetchTags() {
+  //   if (userTags !== []) {
+  //     // userTags.map((tag) => {
+  //     //   console.log(options);
+  //     //   return options.push({
+  //     //     label: tag,
+  //     //     value: tag,
+  //     //   });
+  //     // });
+  //     console.log(userTags);
+  //   }
+  // }
+  // fetchTags();
+
+  useEffect(() => {
+    axios.get(`${domain}/auth/userTags`).then((response) => {
+      setUserTags(response.data);
+    });
+
+    options.push(userTags);
+
+    userTags.map((tag) => {
+      console.log(options);
+      return options.push({
+        label: tag,
+        value: tag,
+      });
+    });
+    // console.log(userTags);
+  }, []);
+
+  // userTags.map((tag) => {
+  //   console.log(options);
+  //   return options.push({
+  //     label: tag,
+  //     value: tag,
+  //   });
+  // });
+
+  console.log(userTags);
 
   async function saveSnippet(e) {
     e.preventDefault();
@@ -99,9 +176,9 @@ function SnippetEditor({
               onChange={(e) => setEditorTag(e.target.value)}
               value={editorTag ? editorTag : options[0].value}
             >
-              {options.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
+              {options.map((tag) => (
+                <option key={tag.value} value={tag.value}>
+                  {tag.label}
                 </option>
               ))}
             </select>
